@@ -9,29 +9,93 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="my-timer.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
   <template>
     <style include="shared-styles">
       :host {
-        display: block;
+        display: grid;
+        grid-gap: 1rem;
+        padding: 1rem;
+      }
 
-        padding: 10px;
+      paper-card .card-content {
+        padding: 1rem;
       }
     </style>
-
-    <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-    </div>
+    <template is="dom-if" if="[[timersLoaded]]">
+      <template is="dom-repeat" items="[[timers]]" as="timer">
+        <paper-card>
+          <div class="card-content">
+            [[timer.label]]
+            <my-timer date="[[timer.date]]"></my-timer>
+          </div>
+        </paper-card>
+      </template>
+    </template>
+    <paper-card>
+      <div class="card-content">
+        <paper-input label="Label" value="{{newLabel}}"></paper-input>
+        <paper-input label="Date" value="{{newDate}}"></paper-input>
+      </div>
+      <div class="card-cations">
+        <paper-button on-tap="add">Add</paper-button>
+      </div>
+    </paper-card>
+    <firebase-document
+            path="/users/[[userId]]/timers"
+            data="{{timers}}">
+    </firebase-document>
   </template>
 
   <script>
     class MyView1 extends Polymer.Element {
-      static get is() { return 'my-view1'; }
+      static get is() {
+        return 'my-view1';
+      }
+
+      static get properties() {
+        return {
+          timers: {
+            type: Array,
+          },
+          timersLoaded: {
+            type: Boolean,
+            value: false
+          },
+          userId: {
+            type: String,
+            value: 0
+          }
+        }
+      }
+
+      static get observers() {
+        return [
+            '_timersLoaded(timers.length)'
+        ]
+      }
+
+      _timersLoaded(length) {
+        console.log(length);
+        if(length) this.set("timersLoaded", true);
+      }
+
+      add() {
+        console.log("Here");
+        const timer = {
+          label: this.newLabel,
+          date: this.newDate
+        };
+        if(!Array.isArray(this.timers)) this.set("timers", []);
+        this.push("timers", timer)
+      }
     }
 
     window.customElements.define(MyView1.is, MyView1);
