@@ -1,6 +1,6 @@
 {
-  "name": "My App",
-  "short_name": "My App",
+  "name": "Countdown",
+  "short_name": "Countdown",
   "description": "My App description",
   "icons": [
     {
