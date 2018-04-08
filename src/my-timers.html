@@ -21,24 +21,39 @@
         font-size: var(--font-size);
       }
     </style>
-    <!--<template is="dom-if" if="[[timersLoaded]]">-->
-      <template is="dom-repeat" items="[[query]]" as="timer">
-        <paper-card>
+    <app-route
+            route="{{route}}"
+            pattern="[[rootPath]]:id"
+            data="{{routeData}}"
+    >
+    </app-route>
+    <template is="dom-if" if="[[timersLoaded]]">
+      <template is="dom-if" if="[[isSingle]]">
+        <paper-card on-tap="selectTimer">
           <div class="card-content">
-            <my-timer label="[[timer.label]]" date="[[timer.date]]"></my-timer>
+            <my-timer label="[[_getLabel(routeData.id)]]" date="[[_getDate(routeData.id)]]"></my-timer>
           </div>
         </paper-card>
       </template>
-    <!--</template>-->
-    <paper-card>
-      <div class="card-content">
-        <paper-input label="Label" value="{{newLabel}}"></paper-input>
-        <paper-input label="Date" value="{{newDate}}"></paper-input>
-      </div>
-      <div class="card-cations">
-        <paper-button on-tap="createTimer">Add</paper-button>
-      </div>
-    </paper-card>
+      <template is="dom-if" if="[[!isSingle]]">
+        <template is="dom-repeat" items="[[query]]" as="timer">
+          <paper-card on-tap="selectTimer">
+            <div class="card-content">
+              <my-timer id="[[index]]" label="[[timer.label]]" date="[[timer.date]]"></my-timer>
+            </div>
+          </paper-card>
+        </template>
+        <paper-card>
+          <div class="card-content">
+            <paper-input label="Label" value="{{newLabel}}"></paper-input>
+            <paper-input label="Date" value="{{newDate}}"></paper-input>
+          </div>
+          <div class="card-cations">
+            <paper-button on-tap="createTimer">Add</paper-button>
+          </div>
+        </paper-card>
+      </template>
+    </template>
     <firebase-query
             path="/users/[[userId]]/timers"
             data="{{query}}">
@@ -50,7 +65,7 @@
   </template>
 
   <script>
-    class MyTimers extends Polymer.Element {
+    class MyTimers extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() {
         return 'my-timers';
       }
@@ -73,12 +88,13 @@
 
       static get observers() {
         return [
-            '_timersLoaded(timers.length)'
+          '_timersLoaded(timers.length)',
+          '_routePathChanged(route.path)',
+          '_idChanged(routeData.id)'
         ]
       }
 
       _timersLoaded(length) {
-        console.log(length);
         if(length) this.set("timersLoaded", true);
       }
 
@@ -89,6 +105,28 @@
         };
         if(!Array.isArray(this.timers)) this.set("timers", []);
         this.push("timers", timer)
+      }
+
+      selectTimer(e) {
+        const id = e.target.getAttribute('id');
+        window.history.pushState({}, null, '/timers/' + id);
+        window.dispatchEvent(new CustomEvent('location-changed'));
+      }
+
+      _routePathChanged(path) {
+        if(path == '') this.routeData = {};
+      }
+
+      _idChanged(id) {
+        id !== undefined ? this.isSingle = true : this.isSingle = false;
+      }
+
+      _getLabel(id) {
+        if(id) return this.timers[id].label;
+      }
+
+      _getDate(id) {
+        if(id) return this.timers[id].date;
       }
     }
 
