@@ -17,8 +17,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .text-right {
+        text-align: right;
+      }
     </style>
-    [[countdown]]
+    <div>[[label]]</div>
+    <div class="text-center">[[countdown]]</div>
+    <div class="text-right">[[date]]</div>
   </template>
 
   <script>
@@ -38,7 +48,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       connectedCallback() {
         super.connectedCallback();
         // Set the date we're counting down to
-        console.log(this.date);
         var countDownDate = new Date(this.date).getTime();
 
         // Update the count down every 1 second
