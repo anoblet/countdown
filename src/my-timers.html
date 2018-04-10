@@ -37,6 +37,8 @@
             data="{{routeData}}"
     >
     </app-route>
+    [[routeData.id]]
+    [[singleId]]
     <div class="grid">
       <template is="dom-if" if="[[timersLoaded]]">
         <template is="dom-if" if="[[isSingle]]">
@@ -102,6 +104,7 @@
         return [
           '_timersLoaded(timers.length)',
           '_routePathChanged(route.path)',
+          '_routeDataIdChanged(routeData.id)',
           '_idChanged(routeData.id)'
         ]
       }
@@ -127,6 +130,10 @@
 
       _routePathChanged(path) {
         if(path == '') this.routeData = {};
+      }
+
+      _routeDataIdChanged(id) {
+        this.singleId = id;
       }
 
       _idChanged(id) {

@@ -9,6 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/my-debug/my-debug.html">
+<link rel="import" href="../bower_components/my-debug/mixins/DebugMixin.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/web-animations-js/web-animations-next.min.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-timer">
@@ -29,31 +33,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>[[label]]</div>
-    <div class="flex grow center">[[countdown]]</div>
+    <div id="center" class="flex grow center">[[countdown]]</div>
     <div class="text-right">[[date]]</div>
   </template>
 
   <script>
-    class MyTimer extends Polymer.Element {
+    class MyTimer extends DebugMixin(Polymer.Element) {
       static get is() {
         return 'my-timer';
       }
 
       static get properties() {
         return {
+          countdown: {
+            type: String,
+          },
           date: {
-            type: String
+            type: String,
+            observer: '_dateChanged'
           }
         }
       }
 
-      connectedCallback() {
-        super.connectedCallback();
+      _dateChanged(date) {
+        if(this.interval) this.interval = false;
         // Set the date we're counting down to
-        var countDownDate = new Date(this.date).getTime();
+        var countDownDate = new Date(date).getTime();
 
         // Update the count down every 1 second
-        var x = setInterval(function () {
+        this.interval = setInterval(function () {
 
           // Get todays date and time
           var now = new Date().getTime();
@@ -73,10 +81,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           // If the count down is finished, write some text
           if(distance < 0) {
-            clearInterval(x);
+            clearInterval(this.interval);
             // document.getElementById("demo").innerHTML = "EXPIRED";
             this.countdown = "Expired"
           }
+          console.log(this.countdown);
         }.bind(this), 1000);
       }
     }
