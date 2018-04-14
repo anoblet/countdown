@@ -1,9 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="my-timer.html">
 <link rel="import" href="shared-styles.html">
 
@@ -37,14 +37,12 @@
             data="{{routeData}}"
     >
     </app-route>
-    [[routeData.id]]
-    [[singleId]]
     <div class="grid">
       <template is="dom-if" if="[[timersLoaded]]">
         <template is="dom-if" if="[[isSingle]]">
           <paper-card class="flex grow" on-tap="selectTimer">
             <div class="flex grow card-content">
-              <my-timer class="flex grow column" label="[[_getLabel(routeData.id)]]" date="[[_getDate(routeData.id)]]"></my-timer>
+              <my-timer class="flex grow column" label="[[_getLabel(singleId)]]" date="[[_getDate(singleId)]]"></my-timer>
             </div>
           </paper-card>
         </template>
@@ -105,7 +103,6 @@
           '_timersLoaded(timers.length)',
           '_routePathChanged(route.path)',
           '_routeDataIdChanged(routeData.id)',
-          '_idChanged(routeData.id)'
         ]
       }
 
@@ -114,11 +111,13 @@
       }
 
       createTimer() {
+        if(!Array.isArray(this.timers)) this.set("timers", []);
+        const len = this.timers.length;
         const timer = {
+          id: len,
           label: this.newLabel,
           date: this.newDate
         };
-        if(!Array.isArray(this.timers)) this.set("timers", []);
         this.push("timers", timer)
       }
 
@@ -133,7 +132,12 @@
       }
 
       _routeDataIdChanged(id) {
-        this.singleId = id;
+        if(id !== undefined) {
+          this.isSingle = true;
+          this.singleId = id;
+        } else {
+          this.isSingle = false;
+        }
       }
 
       _idChanged(id) {
