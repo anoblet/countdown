@@ -116,24 +116,24 @@
 
       // Compute
       _getLabel(id) {
-        if(id) return this.timers[id].label;
+        if(id) return this.document[id].label;
       }
 
       _getDate(id) {
-        if(id) return this.timers[id].date;
+        if(id) return this.document[id].date;
       }
       // End compute
 
       // Events
       createTimer() {
-        if(!Array.isArray(this.timers)) this.set("timers", []);
-        const id = this.timers.length;
+        if(!Array.isArray(this.document)) this.set("timers", []);
+        const id = this.document.length;
         const timer = {
           id: id,
           label: this.newLabel,
           date: this.newDate
         };
-        this.push("timers", timer)
+        this.push("document", timer)
       }
 
       selectTimer(e) {
