@@ -132,6 +132,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             storage-bucket="countdown-a3ed7.appspot.com"
             messaging-sender-id="027840066299">
     </firebase-app>
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}" status-known="{{statusKnown}}"></firebase-auth>
   </template>
 
   <script>
@@ -159,6 +160,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           fontSize: {
             type: Number,
             value: 16
+          },
+          statusKnown: {
+            type: Boolean,
+            observer: '_statusKnownChanged'
           }
         };
       }
@@ -206,6 +211,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.updateStyles({
           "--font-size": this.fontSize + "px"
         });
+      }
+
+      _statusKnownChanged(statusKnown) {
+        if(statusKnown) {
+          if(!this.$.auth.user) {
+            this.login();
+          }
+        }
+      }
+
+      login() {
+        this.$.auth.signInWithPopup();
+      }
+
+      logout() {
+        this.$.auth.signOut();
       }
     }
 

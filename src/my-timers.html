@@ -4,6 +4,8 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="my-timer.html">
 <link rel="import" href="shared-styles.html">
 
@@ -12,14 +14,12 @@
     <style include="shared-styles">
       :host {
         display: block;
-        height: 100%;
         padding: 1rem;
       }
 
       .grid {
         display: grid;
         grid-gap: 1rem;
-        height: 100%;
       }
 
       paper-card .card-content {
@@ -29,6 +29,18 @@
 
       .full {
         height: 100%;
+      }
+
+      paper-fab {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 1;
+      }
+
+      paper-dialog-scrollable {
+        display: block;
+        padding: 1rem;
       }
     </style>
     <!-- Data -->
@@ -52,15 +64,18 @@
               </div>
             </paper-card>
           </template>
-          <paper-card>
-            <div class="card-content">
+          <paper-fab icon="add" on-tap="_createTimerEvent"></paper-fab>
+          <paper-dialog id="newTimer">
+            <h2>New timer</h2>
+            <paper-dialog-scrollable>
               <paper-input label="Label" value="{{newLabel}}"></paper-input>
               <paper-input label="Date" value="{{newDate}}"></paper-input>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+              <paper-button dialog-dismiss>Cancel</paper-button>
+              <paper-button dialog-confirm autofocus on-tap="createTimer">Add</paper-button>
             </div>
-            <div class="card-cations">
-              <paper-button on-tap="createTimer">Add</paper-button>
-            </div>
-          </paper-card>
+          </paper-dialog>
         </template>
       </template>
     </div>
@@ -122,9 +137,16 @@
       _getDate(id) {
         if(id) return this.document[id].date;
       }
+
       // End compute
 
       // Events
+
+      _createTimerEvent() {
+        // this.$.newTimer.open();
+        this.shadowRoot.querySelector('#newTimer').open();
+      }
+
       createTimer() {
         if(!Array.isArray(this.document)) this.set("timers", []);
         const id = this.document.length;
