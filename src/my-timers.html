@@ -28,7 +28,12 @@
       }
 
       .full {
-        height: 100%;
+        /*height: 100%;*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
 
       paper-fab {
@@ -42,6 +47,10 @@
         display: block;
         padding: 1rem;
       }
+
+      .single .center {
+        font-size: 100px;
+      }
     </style>
     <!-- Data -->
     <app-route route="{{route}}" pattern="[[rootPath]]:id" data="{{routeData}}"></app-route>
@@ -50,11 +59,13 @@
     <div class="grid">
       <template is="dom-if" if="[[documentLoaded]]">
         <template is="dom-if" if="[[isSingle]]">
-          <paper-card class="flex grow" on-tap="selectTimer">
-            <div class="flex grow card-content">
-              <my-timer class="flex grow column" label="[[_getLabel(singleId)]]" date="[[_getDate(singleId)]]"></my-timer>
-            </div>
-          </paper-card>
+          <div class="single">
+            <paper-card class="flex full">
+              <div class="flex grow card-content">
+                <my-timer class="flex grow column" label="[[_getLabel(singleId)]]" date="[[_getDate(singleId)]]" single></my-timer>
+              </div>
+            </paper-card>
+          </div>
         </template>
         <template is="dom-if" if="[[!isSingle]]">
           <template is="dom-repeat" items="[[document]]" as="timer">

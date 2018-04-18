@@ -22,14 +22,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-
-
       .text-center {
         text-align: center;
       }
 
       .text-right {
         text-align: right;
+      }
+
+      :host([single]) .center {
+        font-size: 10vw;
       }
     </style>
     <div>[[label]]</div>
@@ -51,6 +53,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           date: {
             type: String,
             observer: '_dateChanged'
+          },
+          single: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true
           }
         }
       }
