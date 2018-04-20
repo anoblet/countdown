@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/app-datepicker/app-datepicker.html">
 <link rel="import" href="my-timer.html">
 <link rel="import" href="shared-styles.html">
 
@@ -78,10 +79,10 @@
         </template>
       </template>
       <paper-dialog id="newTimer">
-        <h2>New timer</h2>
         <paper-dialog-scrollable>
           <paper-input label="Label" value="{{newLabel}}"></paper-input>
-          <paper-input label="Date" value="{{newDate}}"></paper-input>
+          <!--<paper-input label="Date" value="{{newDate}}"></paper-input>-->
+          <app-datepicker auto-update-date format="mm/dd/yyyy" date="{{newDate}}"></app-datepicker>
         </paper-dialog-scrollable>
         <div class="buttons">
           <paper-button dialog-dismiss>Cancel</paper-button>
