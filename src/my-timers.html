@@ -75,20 +75,20 @@
               </div>
             </paper-card>
           </template>
-          <paper-fab icon="add" on-tap="_createTimerEvent"></paper-fab>
-          <paper-dialog id="newTimer">
-            <h2>New timer</h2>
-            <paper-dialog-scrollable>
-              <paper-input label="Label" value="{{newLabel}}"></paper-input>
-              <paper-input label="Date" value="{{newDate}}"></paper-input>
-            </paper-dialog-scrollable>
-            <div class="buttons">
-              <paper-button dialog-dismiss>Cancel</paper-button>
-              <paper-button dialog-confirm autofocus on-tap="createTimer">Add</paper-button>
-            </div>
-          </paper-dialog>
         </template>
       </template>
+      <paper-dialog id="newTimer">
+        <h2>New timer</h2>
+        <paper-dialog-scrollable>
+          <paper-input label="Label" value="{{newLabel}}"></paper-input>
+          <paper-input label="Date" value="{{newDate}}"></paper-input>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm autofocus on-tap="createTimer">Add</paper-button>
+        </div>
+      </paper-dialog>
+      <paper-fab icon="add" on-tap="_createTimerEvent"></paper-fab>
     </div>
   </template>
 
@@ -104,6 +104,10 @@
             type: Array,
           },
           documentLoaded: {
+            type: Boolean,
+            value: false
+          },
+          isSingle: {
             type: Boolean,
             value: false
           },
@@ -159,7 +163,7 @@
       }
 
       createTimer() {
-        if(!Array.isArray(this.document)) this.set("timers", []);
+        if(!Array.isArray(this.document)) this.set("document", []);
         const id = this.document.length;
         const timer = {
           id: id,
