@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-timers.html">
@@ -114,6 +115,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div main-title><a href="/">Countdown</a></div>
             <paper-icon-button icon="icons:arrow-upward" on-tap="fontIncrease"></paper-icon-button>
             <paper-icon-button icon="icons:arrow-downward" on-tap="fontDecrease"></paper-icon-button>
+            <template is="dom-if" if="[[signedIn]]">
+              <paper-button on-click="logout">Logout</paper-button>
+            </template>
+            <template is="dom-if" if="[[!signedIn]]">
+              <paper-button on-click="login">Login</paper-button>
+            </template>
           </app-toolbar>
         </app-header>
 
