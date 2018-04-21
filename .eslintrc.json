@@ -11,10 +11,10 @@
   ],
   "rules": {
     "brace-style": "off",
-    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-var": "off",
     "require-jsdoc": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "new-cap": "off"
   },
   "globals": {
     "Polymer": true
