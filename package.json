@@ -4,7 +4,9 @@
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.0",
-    "eslint-plugin-html": "^2.0.0"
+    "eslint-plugin-html": "^2.0.0",
+    "semantic-release": "^15.1.7",
+    "travis-deploy-once": "^4.4.1"
   },
   "scripts": {
     "lint": "npm run lint:javascript && polymer lint",
@@ -12,9 +14,16 @@
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "dev": "polymer serve | npm run watch",
-    "watch": "browser-sync start --proxy localhost:8081 --files \"src/**/*.*, index.html, *.js\""
+    "watch": "browser-sync start --proxy localhost:8081 --files \"src/**/*.*, index.html, *.js\"",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
     "npm": "^5.8.0"
+  },
+  "version": "0.0.0-development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anoblet/countdown.git"
   }
 }
