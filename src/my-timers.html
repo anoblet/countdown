@@ -95,6 +95,12 @@
   </template>
 
   <script>
+    /**
+     * An element with a mixin
+     * @polymer
+     * @customElement
+     * @appliesMixin Polymer.GestureEventListeners
+     */
     class MyTimers extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() {
         return 'my-timers';
