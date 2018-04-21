@@ -117,7 +117,7 @@
             type: String,
             value: 0
           }
-        }
+        };
       }
 
       static get observers() {
@@ -125,12 +125,12 @@
           '_documentLoaded(document.length)',
           '_routePathChanged(route.path)',
           '_routeDataIdChanged(routeData.id)',
-        ]
+        ];
       }
 
       // Observers
       _documentLoaded(length) {
-        if(length) this.set("documentLoaded", true);
+        if(length) this.set('documentLoaded', true);
       }
 
       _routePathChanged(path) {
@@ -165,15 +165,14 @@
       }
 
       createTimer() {
-        console.log(this.document);
-        if(!Array.isArray(this.document)) this.set("document", []);
+        if(!Array.isArray(this.document)) this.set('document', []);
         const id = this.document.length;
         const timer = {
           id: id,
           label: this.newLabel,
           date: this.newDate
         };
-        this.push("document", timer)
+        this.push('document', timer);
       }
 
       selectTimer(e) {
