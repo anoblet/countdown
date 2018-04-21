@@ -55,10 +55,11 @@
     </style>
     <!-- Data -->
     <app-route route="{{route}}" pattern="[[rootPath]]:id" data="{{routeData}}"></app-route>
+    <firebase-query path="/users/[[userId]]/timers" data="{{query}}"></firebase-query>
     <firebase-document path="/users/[[userId]]/timers" data="{{document}}"></firebase-document>
     <!-- View -->
     <div class="grid">
-      <template is="dom-if" if="[[documentLoaded]]">
+      <!--<template is="dom-if" if="[[documentLoaded]]">-->
         <template is="dom-if" if="[[isSingle]]">
           <div class="single">
             <paper-card class="flex full">
@@ -69,7 +70,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[!isSingle]]">
-          <template is="dom-repeat" items="[[document]]" as="timer">
+          <template is="dom-repeat" items="[[query]]" as="timer">
             <paper-card on-tap="selectTimer">
               <div class="card-content">
                 <my-timer id="[[index]]" label="[[timer.label]]" date="[[timer.date]]"></my-timer>
@@ -77,7 +78,7 @@
             </paper-card>
           </template>
         </template>
-      </template>
+      <!--</template>-->
       <paper-dialog id="newTimer">
         <paper-dialog-scrollable>
           <paper-input label="Label" value="{{newLabel}}"></paper-input>
@@ -164,6 +165,7 @@
       }
 
       createTimer() {
+        console.log(this.document);
         if(!Array.isArray(this.document)) this.set("document", []);
         const id = this.document.length;
         const timer = {
