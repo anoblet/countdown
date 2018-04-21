@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/app-datepicker/app-datepicker.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="my-timer.html">
 <link rel="import" href="shared-styles.html">
 
@@ -60,31 +61,31 @@
     <!-- View -->
     <div class="grid">
       <!--<template is="dom-if" if="[[documentLoaded]]">-->
-        <template is="dom-if" if="[[isSingle]]">
-          <div class="single">
-            <paper-card class="flex full">
-              <div class="flex grow card-content">
-                <my-timer class="flex grow column" label="[[_getLabel(singleId)]]" date="[[_getDate(singleId)]]" single></my-timer>
-              </div>
-            </paper-card>
-          </div>
+      <template is="dom-if" if="[[isSingle]]">
+        <div class="single">
+          <paper-card class="flex full">
+            <div class="flex grow card-content">
+              <my-timer class="flex grow column" label="[[_getLabel(singleId)]]" date="[[_getDate(singleId)]]" single></my-timer>
+            </div>
+          </paper-card>
+        </div>
+      </template>
+      <template is="dom-if" if="[[!isSingle]]">
+        <template is="dom-repeat" items="[[query]]" as="timer">
+          <paper-card on-tap="selectTimer">
+            <div class="card-content">
+              <my-timer id="[[index]]" label="[[timer.label]]" date="[[timer.date]]"></my-timer>
+            </div>
+          </paper-card>
         </template>
-        <template is="dom-if" if="[[!isSingle]]">
-          <template is="dom-repeat" items="[[query]]" as="timer">
-            <paper-card on-tap="selectTimer">
-              <div class="card-content">
-                <my-timer id="[[index]]" label="[[timer.label]]" date="[[timer.date]]"></my-timer>
-              </div>
-            </paper-card>
-          </template>
-        </template>
+      </template>
       <!--</template>-->
       <paper-dialog id="newTimer">
-        <paper-dialog-scrollable>
+        <!--<paper-dialog-scrollable>-->
           <paper-input label="Label" value="{{newLabel}}"></paper-input>
           <!--<paper-input label="Date" value="{{newDate}}"></paper-input>-->
           <app-datepicker auto-update-date format="mm/dd/yyyy" date="{{newDate}}"></app-datepicker>
-        </paper-dialog-scrollable>
+        <!--</paper-dialog-scrollable>-->
         <div class="buttons">
           <paper-button dialog-dismiss>Cancel</paper-button>
           <paper-button dialog-confirm autofocus on-tap="createTimer">Add</paper-button>
@@ -122,7 +123,24 @@
           userId: {
             type: String,
             value: 0
-          }
+          },
+          document: {
+            type: Object
+          },
+          newLabel: {
+            type: String
+          },
+          newDate: {
+            type: String
+          },
+          route: {
+            type: Object
+          },
+          routeData: {
+            type: Object
+          },
+          rootPath: String,
+          singleId: Number
         };
       }
 

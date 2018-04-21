@@ -1,0 +1,9 @@
+
+
+        <my-view1></my-view1>
+        ~~~~~~~~~~
+
+test/my-view1.html(27,8) warning [undefined-elements] - The element my-view1 is not defined
+
+
+Found 1 warning.
