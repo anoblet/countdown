@@ -211,19 +211,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       fontIncrease() {
         this.fontSize++;
         this.updateStyles({
-          "--font-size": this.fontSize + "px"
+          '--font-size': this.fontSize + 'px'
         });
       }
 
       fontDecrease() {
         this.fontSize--;
         this.updateStyles({
-          "--font-size": this.fontSize + "px"
+          '--font-size': this.fontSize + 'px'
         });
       }
 
       _statusKnownChanged(statusKnown) {
-        console.log("A");
         if(statusKnown) {
           if(!this.$.auth.user) {
             this.login();

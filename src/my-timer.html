@@ -44,6 +44,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+    /**
+     * @appliesMixin DebugMixin
+     */
     class MyTimer extends DebugMixin(Polymer.Element) {
       static get is() {
         return 'my-timer';
