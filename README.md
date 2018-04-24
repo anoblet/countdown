@@ -2,4 +2,4 @@
 
 https://countdown-a3ed7.firebaseapp.com/
 
-An application the provides for the abilit to countdown to a certain date.
+An application the provides for the ability to countdown to a certain date.
